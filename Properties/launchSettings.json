@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "backupPostgreSQLDatabase": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7261"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "containerRunArguments": "--init",
+      "httpPort": 31899,
+      "useSSL": false
+    }
+  }
+}
