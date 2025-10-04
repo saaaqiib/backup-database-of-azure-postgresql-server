@@ -25,6 +25,7 @@ public class getPGDumps
     private readonly string pgUser = Environment.GetEnvironmentVariable("PG_USER");
     private readonly string pgPassword = Environment.GetEnvironmentVariable("PG_PASSWORD");
     private readonly string pgDatabase = Environment.GetEnvironmentVariable("PG_DATABASE");
+    private readonly string userAssignedClientId = Environment.GetEnvironmentVariable("UAMI_CLIENT_ID");
 
     private readonly string storageAccountUrl = Environment.GetEnvironmentVariable("STORAGE_ACCOUNT_URL");
     private readonly string containerName = Environment.GetEnvironmentVariable("STORAGE_CONTAINER");
@@ -65,7 +66,11 @@ public class getPGDumps
                 }
             }
 
-            var blobService = new BlobServiceClient(new Uri(storageAccountUrl), new DefaultAzureCredential());
+            var blobService = new BlobServiceClient(new Uri(storageAccountUrl), new DefaultAzureCredential(
+                new DefaultAzureCredentialOptions
+                {
+                    ManagedIdentityClientId = userAssignedClientId
+                }));
             var containerClient = blobService.GetBlobContainerClient(containerName);
             await containerClient.CreateIfNotExistsAsync();
 
