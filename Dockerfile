@@ -15,11 +15,11 @@ RUN apt-get update && \
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["backupPostgreSQLDatabase/backupPostgreSQLDatabase.csproj", "backupPostgreSQLDatabase/"]
-RUN dotnet restore "./backupPostgreSQLDatabase/backupPostgreSQLDatabase.csproj"
+COPY ["backupPostgreSQLDatabase.csproj", "./"]
+RUN dotnet restore "./backupPostgreSQLDatabase.csproj"
 COPY . .
-WORKDIR "/src/backupPostgreSQLDatabase"
-RUN dotnet build "./backupPostgreSQLDatabase.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src"
+RUN dotnet build "backupPostgreSQLDatabase.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
