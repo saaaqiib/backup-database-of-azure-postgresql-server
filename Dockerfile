@@ -5,10 +5,12 @@ FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0 AS b
 WORKDIR /home/site/wwwroot
 EXPOSE 8080
 
-# Install PostgreSQL client tools (pg_dump, psql, etc.)
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends postgresql-client && \
-    rm -rf /var/lib/apt/lists/*
+# Install PostgreSQL 17 client tools
+RUN curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+    echo "deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main 17" > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && \
+    apt-get install -y postgresql-client-17
+
 
 
 # This stage is used to build the service project
