@@ -5,12 +5,12 @@ FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0 AS b
 WORKDIR /home/site/wwwroot
 EXPOSE 8080
 
-# Install PostgreSQL 17 client tools
+# Add this in your final image stage before copying the app
 RUN curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     echo "deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main 17" > /etc/apt/sources.list.d/pgdg.list && \
     apt-get update && \
-    apt-get install -y postgresql-client-17
-
+    apt-get install -y postgresql-client-17 && \
+    rm -rf /var/lib/apt/lists/*
 
 
 # This stage is used to build the service project
