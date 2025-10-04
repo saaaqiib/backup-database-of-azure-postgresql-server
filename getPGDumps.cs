@@ -45,7 +45,7 @@ public class getPGDumps
         {
             var psi = new ProcessStartInfo
             {
-                FileName = "pg_dump",
+                FileName = "/usr/lib/postgresql/17/bin/pg_dump",
                 Arguments = $"-h {pgHost} -p {pgPort} -U {pgUser} -Fc {pgDatabase} -f {backupFile}",
                 RedirectStandardError = true,
                 UseShellExecute = false,
